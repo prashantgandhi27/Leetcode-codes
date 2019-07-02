@@ -1,0 +1,2 @@
+string length		 -> str.length()
+covert string to int 	 -> stoi(str)
