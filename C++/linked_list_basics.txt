@@ -1,0 +1,10 @@
+/**
+* Definition for singly-linked list.
+* struct ListNode {
+*     int val;
+*     ListNode *next;
+*     ListNode(int x) : val(x), next(NULL) {}
+* };
+*/
+
+-> ListNode(int x) is a constructor and is called when a ListNode is created. The : val(x), next(NULL) part of it initializes the struct's members. This means set val = x and next = NULL. The {} is the code to be run for this method, in this case it is an empty code block.
