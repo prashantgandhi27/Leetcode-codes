@@ -9,10 +9,11 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(l1 == NULL) return l2;
+        if(l2 == NULL) return l1;
+
         ListNode* current_1=NULL;
         ListNode* current_2=NULL;
-        ListNode* count_node_1=NULL;
-        ListNode* count_node_2=NULL;
         ListNode* prevTail_1=NULL;
         ListNode* prevTail_2=NULL;
         ListNode* first_node=NULL;
@@ -20,21 +21,19 @@ public:
         int count_1=0,count_2=0,count_dec=0,prev_count=0;
         current_1 = l1;
         current_2 = l2;
-        count_node_1 = l1;
-        count_node_2 = l2;
-        while(count_node_1!=NULL){
+
+        while(current_1!=NULL){
             count_1++;
-            count_node_1 = count_node_1->next;
+            current_1 = current_1->next;
         }
-        while(count_node_2!=NULL){
+        while(current_2!=NULL){
             count_2++;
-            count_node_2 = count_node_2->next;
+            current_2 = current_2->next;
         }
-        
+        current_1 = l1;
+        current_2 = l2;
+
         if(count_1 > count_2){
-            if(count_2 == 0){
-                first_node = l1;
-            }else{
                 first_node = l1;
                 prevTail_1 = l1;
                 count_dec = count_2;
@@ -73,13 +72,8 @@ public:
                         prevTail_1->next = current_2;
                         break;
                     }
-                      
                 }
-            }
         }else if(count_1 < count_2){
-                if(count_1 == 0){
-                first_node = l2;
-            }else{
                 first_node = l2;
                 prevTail_2 = l2;
                 count_dec = count_1;
@@ -118,15 +112,9 @@ public:
                         prevTail_2->next = current_1;
                         break;
                     }
-                      
+
                 }
-            }
         }else if(count_1 = count_2){
-            if(count_2 == 0){
-                first_node = l1;
-            }else if(count_1 == 0){
-                first_node = l2;
-            }else{
                 first_node = l1;
                 prevTail_1 = l1;
                 count_dec = count_2;
@@ -165,11 +153,9 @@ public:
                         prevTail_1->next = current_2;
                         break;
                     }
-                      
                 }
-            }
         }
-        
+
         return first_node;
     }
 };
