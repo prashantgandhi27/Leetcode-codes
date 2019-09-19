@@ -105,14 +105,14 @@ public:
                 break;
         }
 
-        return "NAN";
+        return "NULL";
     }
 
     int uniqueMorseRepresentations(vector<string>& words) {
 
         if(words.empty()) return 0;
 
-        vector<string> output;
+        set<string> output;
         string s;
 
         for(int i=0; i<words.size();i++){
@@ -120,17 +120,17 @@ public:
             for(int j=0; j<words[i].size();j++){
                 s += moorseCode(words[i][j]);
             }
-            output.push_back(s);
+            output.insert(s);
         }
 
-        sort(output.begin(),output.end());
+        /*sort(output.begin(),output.end());
 
         for(int i=0; i<output.size()-1; i++){
             if(output[i] == output[i+1]){
                 output.erase(output.begin()+i);
                 i=-1;
             }
-        }
+        }*/
 
         return output.size();
     }
