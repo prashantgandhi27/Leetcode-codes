@@ -1,4 +1,34 @@
 -> in-place algorithm
 
 
+int div=0, quo=0, sum=0;
+        bool ret_val = false;
+        unordered_map<int, int> unmap;
+        
+        while(n != 1 && n>0){
+            while(n != 0){
+                quo = n%10;
+                sum += quo*quo;
+                n = n/10;
+            }
+            unmap[sum]++;
+            if(unmap[sum]>1){
+                ret_val = false;
+                break;
+            }else{
+                if(sum == 1)
+                    ret_val = true;
+                else
+                    if(sum == 0)
+                        ret_val = false;
+                    else
+                        n = sum;
+            }
+            
+        }
+        
+        return ret_val;
+    }
+
+
       
