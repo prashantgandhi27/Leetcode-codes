@@ -2,160 +2,95 @@
  * Definition for singly-linked list.
  * struct ListNode {
  *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
+ *     struct ListNode *next;
  * };
  */
-class Solution {
-public:
-    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        if(l1 == NULL) return l2;
-        if(l2 == NULL) return l1;
 
-        ListNode* current_1=NULL;
-        ListNode* current_2=NULL;
-        ListNode* prevTail_1=NULL;
-        ListNode* prevTail_2=NULL;
-        ListNode* first_node=NULL;
-        ListNode* new_node=NULL;
-        int count_1=0,count_2=0,count_dec=0,prev_count=0;
-        current_1 = l1;
-        current_2 = l2;
 
-        while(current_1!=NULL){
-            count_1++;
-            current_1 = current_1->next;
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
+
+    if(l1 == NULL)
+        return l2;
+    else if(l2 == NULL)
+        return l1;
+
+    struct ListNode* temp1 = l1;
+    struct ListNode* temp2 = l2;
+    struct ListNode* current = NULL;
+    struct ListNode* head = NULL;
+
+    while((temp1 != NULL) && (temp2 != NULL))
+    {
+        if(temp1->val == temp2->val)
+        {
+            if(head == NULL)
+            {
+                current = (struct ListNode *)malloc(sizeof(struct ListNode));
+                current->val = temp1->val;
+                current->next = NULL;
+                head = current;
+                current->next  = (struct ListNode *)malloc(sizeof(struct ListNode));
+                current->next->val = temp2->val;
+                current->next->next = NULL;
+                current = current->next;
+            }else{
+                current->next = (struct ListNode *)malloc(sizeof(struct ListNode));
+                current->next->val = temp1->val;
+                current->next->next  = (struct ListNode *)malloc(sizeof(struct ListNode));
+                current->next->next->val = temp2->val;
+                current->next->next->next = NULL;
+                current = current->next->next;
+            }
+            temp1 = temp1->next;
+            temp2 = temp2->next;
+        }else if(temp1->val < temp2->val) {
+            if(head == NULL)
+            {
+                current = (struct ListNode *)malloc(sizeof(struct ListNode));
+                current->val = temp1->val;
+                current->next = NULL;
+                head = current;
+            }else{
+                current->next = (struct ListNode *)malloc(sizeof(struct ListNode));
+                current->next->val = temp1->val;
+                current->next->next  = NULL;
+                current = current->next;
+            }
+            temp1 = temp1->next;
+        }else {
+            if(head == NULL)
+            {
+                current = (struct ListNode *)malloc(sizeof(struct ListNode));
+                current->val = temp2->val;
+                current->next = NULL;
+                head = current;
+            }else{
+                current->next = (struct ListNode *)malloc(sizeof(struct ListNode));
+                current->next->val = temp2->val;
+                current->next->next = NULL;
+                current = current->next;
+            }
+            temp2 = temp2->next;
         }
-        while(current_2!=NULL){
-            count_2++;
-            current_2 = current_2->next;
-        }
-        current_1 = l1;
-        current_2 = l2;
-
-        if(count_1 > count_2){
-                first_node = l1;
-                prevTail_1 = l1;
-                count_dec = count_2;
-                for(int i=0;i<count_2;i++){
-                    prev_count = count_dec;
-                    current_1 = first_node;
-                    prevTail_1 = first_node;
-                    while(current_1 != NULL){
-                        if(current_2->val <= current_1->val){
-                            if(prevTail_1 == current_1){
-                                new_node = new ListNode(current_2->val);
-                                new_node->next = prevTail_1;
-                                prevTail_1 = new_node;
-                                first_node = prevTail_1;
-                                count_dec--;
-                                break;
-                            }else{
-                                new_node = new ListNode(current_2->val);
-                                new_node->next = prevTail_1->next;
-                                prevTail_1->next = new_node;
-                                count_dec--;
-                                break;
-                            }
-                        }else{
-                            if(prevTail_1 == current_1){
-                                current_1 = current_1->next;
-                            }else{
-                                prevTail_1 = prevTail_1->next;
-                                current_1 = current_1->next;
-                            }
-                        }
-                    }
-                    if(prev_count > count_dec){
-                        current_2 = current_2->next;
-                    }else if(prev_count == count_dec){
-                        prevTail_1->next = current_2;
-                        break;
-                    }
-                }
-        }else if(count_1 < count_2){
-                first_node = l2;
-                prevTail_2 = l2;
-                count_dec = count_1;
-                for(int i=0;i<count_1;i++){
-                    prev_count = count_dec;
-                    current_2 = first_node;
-                    prevTail_2 = first_node;
-                    while(current_2 != NULL){
-                        if(current_1->val <= current_2->val){
-                            if(prevTail_2 == current_2){
-                                new_node = new ListNode(current_1->val);
-                                new_node->next = prevTail_2;
-                                prevTail_2 = new_node;
-                                first_node = prevTail_2;
-                                count_dec--;
-                                break;
-                            }else{
-                                new_node = new ListNode(current_1->val);
-                                new_node->next = prevTail_2->next;
-                                prevTail_2->next = new_node;
-                                count_dec--;
-                                break;
-                            }
-                        }else{
-                            if(prevTail_2 == current_2){
-                                current_2 = current_2->next;
-                            }else{
-                                prevTail_2 = prevTail_2->next;
-                                current_2 = current_2->next;
-                            }
-                        }
-                    }
-                    if(prev_count > count_dec){
-                        current_1 = current_1->next;
-                    }else if(prev_count == count_dec){
-                        prevTail_2->next = current_1;
-                        break;
-                    }
-
-                }
-        }else if(count_1 = count_2){
-                first_node = l1;
-                prevTail_1 = l1;
-                count_dec = count_2;
-                for(int i=0;i<count_2;i++){
-                    prev_count = count_dec;
-                    current_1 = first_node;
-                    prevTail_1 = first_node;
-                    while(current_1 != NULL){
-                        if(current_2->val <= current_1->val){
-                            if(prevTail_1 == current_1){
-                                new_node = new ListNode(current_2->val);
-                                new_node->next = prevTail_1;
-                                prevTail_1 = new_node;
-                                first_node = prevTail_1;
-                                count_dec--;
-                                break;
-                            }else{
-                                new_node = new ListNode(current_2->val);
-                                new_node->next = current_1;
-                                prevTail_1->next = new_node;
-                                count_dec--;
-                                break;
-                            }
-                        }else{
-                            if(prevTail_1 == current_1){
-                                current_1 = current_1->next;
-                            }else{
-                                prevTail_1 = prevTail_1->next;
-                                current_1 = current_1->next;
-                            }
-                        }
-                    }
-                    if(prev_count > count_dec){
-                        current_2 = current_2->next;
-                    }else if(prev_count == count_dec){
-                        prevTail_1->next = current_2;
-                        break;
-                    }
-                }
-        }
-
-        return first_node;
     }
-};
+
+    while(temp1 != NULL)
+    {
+        current->next = (struct ListNode *)malloc(sizeof(struct ListNode));
+        current->next->val = temp1->val;
+        current->next->next  = NULL;
+        current = current->next;
+        temp1 = temp1->next;
+    }
+
+    while(temp2 != NULL)
+    {
+        current->next = (struct ListNode *)malloc(sizeof(struct ListNode));
+        current->next->val = temp2->val;
+        current->next->next  = NULL;
+        current = current->next;
+        temp2 = temp2->next;
+    }
+
+    return head;
+}
