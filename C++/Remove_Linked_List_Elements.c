@@ -10,14 +10,16 @@
 struct ListNode* removeElements(struct ListNode* head, int val){
     struct ListNode* current = head;
     struct ListNode* prev_current = head;
-    
+    struct ListNode* temp = NULL;
     if(head == NULL) return NULL;
     
     while((head->val == val) && (head->next != NULL))
     {
+        temp = head;
         head = head->next;
         current = head;
         prev_current = head;
+        free(temp);
     }
     
     if(head->val == val) return NULL;
@@ -25,8 +27,10 @@ struct ListNode* removeElements(struct ListNode* head, int val){
     while(current != NULL)
     {
         if((current->val == val)) {
+            temp = current;
             prev_current->next = current->next;
             current = prev_current;
+            free(temp);
         }
         
         if(prev_current == current) {
